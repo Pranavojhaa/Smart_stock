@@ -1,0 +1,10 @@
+.pytest_cache/
+__pycache__/
+.DS_Store
+.streamlit/
+.venv/
+*.pyc
+data/processed/*.csv
+models/*.joblib
+reports/*.json
+
