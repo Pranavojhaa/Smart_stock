@@ -197,46 +197,6 @@ The Streamlit app presents:
 - diagnostics against baseline
 
 ---
-
-## Why This Is a Strong Portfolio Project
-
-Many portfolio projects show only one skill at a time. SmartStock shows several.
-
-### Data science depth
-
-- time-based train/validation/test splitting
-- leakage-aware feature engineering
-- multiple forecasting horizons
-- baseline vs model comparison
-- business-relevant evaluation metrics
-
-### Engineering quality
-
-- modular package structure under `src/`
-- reusable pipeline instead of notebook-only logic
-- saved model artifacts
-- tests for core functionality
-- app separated from training code
-
-### Business maturity
-
-- recommendations, not just predictions
-- risk scoring and inventory classification
-- stakeholder-friendly storytelling
-- portfolio-ready product framing
-
-### Demo value
-
-The project can be explained quickly:
-
-> “I built a retail demand forecasting system that predicts 7-day and 28-day demand, compares it to current inventory, and recommends reorder actions in a Streamlit app.”
-
-That is a much stronger story than:
-
-> “I trained a regression model on sales data.”
-
----
-
 ## Dataset
 
 ### Current implementation
