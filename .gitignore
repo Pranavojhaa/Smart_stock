@@ -1,10 +1,10 @@
 .pytest_cache/
 __pycache__/
 .DS_Store
-.streamlit/
+.streamlit/*
+!.streamlit/config.toml
 .venv/
 *.pyc
 data/processed/*.csv
 models/*.joblib
 reports/*.json
-

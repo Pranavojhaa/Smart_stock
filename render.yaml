@@ -4,7 +4,6 @@ services:
     runtime: python
     plan: free
     autoDeployTrigger: commit
-    buildCommand: pip install -r requirements.txt
-    startCommand: PYTHONPATH=src streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    buildCommand: pip install -r requirements.txt && PYTHONPATH=src python -m smartstock.pipeline
+    startCommand: PYTHONPATH=src streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0
     healthCheckPath: /
-
