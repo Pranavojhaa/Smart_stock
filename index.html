@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartStock | Demand Forecasting Portfolio Project</title>
+    <meta
+      name="description"
+      content="SmartStock is a demand forecasting and inventory intelligence project built for a data science portfolio."
+    />
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: #0d1b2f;
+        --panel: rgba(9, 20, 37, 0.84);
+        --line: rgba(155, 177, 208, 0.18);
+        --text: #edf3ff;
+        --muted: #9fb2cf;
+        --accent: #4fd1c5;
+        --accent-2: #ffb86b;
+        --accent-3: #8eb8ff;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Avenir Next", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(79, 209, 197, 0.18), transparent 28%),
+          radial-gradient(circle at 80% 20%, rgba(142, 184, 255, 0.15), transparent 24%),
+          linear-gradient(160deg, #040b15 0%, #07111f 44%, #0b1d33 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(1160px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 72px;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        color: #03121b;
+        background: linear-gradient(135deg, var(--accent), #9af5ec);
+        box-shadow: 0 14px 32px rgba(79, 209, 197, 0.25);
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        color: var(--muted);
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 24px;
+        align-items: stretch;
+        margin-bottom: 24px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .hero-copy {
+        padding: 34px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        border-radius: 999px;
+        padding: 8px 14px;
+        margin-bottom: 18px;
+        color: var(--accent);
+        background: rgba(79, 209, 197, 0.1);
+        border: 1px solid rgba(79, 209, 197, 0.24);
+        font-size: 0.92rem;
+      }
+
+      h1 {
+        margin: 0 0 14px;
+        font-size: clamp(2.6rem, 5vw, 4.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .lead {
+        margin: 0;
+        max-width: 60ch;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 26px;
+      }
+
+      .button {
+        padding: 14px 18px;
+        border-radius: 16px;
+        font-weight: 700;
+        transition: transform 0.18s ease, opacity 0.18s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        color: #07111f;
+        background: linear-gradient(135deg, var(--accent), #b0fff7);
+      }
+
+      .button.secondary {
+        color: var(--text);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .hero-panel {
+        display: grid;
+        gap: 16px;
+        padding: 22px;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .metric {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .metric label {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .metric strong {
+        font-size: 1.8rem;
+        letter-spacing: -0.04em;
+      }
+
+      .mini-chart {
+        padding: 18px;
+        border-radius: 22px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .bars {
+        display: flex;
+        align-items: end;
+        gap: 10px;
+        height: 170px;
+        margin-top: 16px;
+      }
+
+      .bar {
+        flex: 1;
+        border-radius: 16px 16px 6px 6px;
+        background: linear-gradient(180deg, var(--accent-3), var(--accent));
+        box-shadow: inset 0 -18px 24px rgba(0, 0, 0, 0.18);
+      }
+
+      .bar:nth-child(2n) {
+        background: linear-gradient(180deg, var(--accent-2), #ffdd9f);
+      }
+
+      .section {
+        margin-top: 24px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-header p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 52ch;
+        line-height: 1.6;
+      }
+
+      .feature-grid,
+      .impact-grid,
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .tile {
+        padding: 24px;
+      }
+
+      .tile h3 {
+        margin: 0 0 10px;
+        font-size: 1.2rem;
+      }
+
+      .tile p,
+      .tile li {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .tile ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .showcase {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 18px;
+      }
+
+      .code-block {
+        font-family: "SFMono-Regular", "Menlo", monospace;
+        color: #cae3ff;
+        padding: 24px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+
+      .footer {
+        margin-top: 26px;
+        padding: 22px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .showcase,
+        .feature-grid,
+        .impact-grid,
+        .stack-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="nav">
+        <div class="brand">
+          <div class="brand-mark">SS</div>
+          <div>SmartStock</div>
+        </div>
+        <div class="nav-links">
+          <a class="chip" href="#overview">Overview</a>
+          <a class="chip" href="#features">Features</a>
+          <a class="chip" href="#impact">Business Impact</a>
+          <a class="chip" href="#deploy">Run It</a>
+        </div>
+      </nav>
+
+      <section class="hero" id="overview">
+        <article class="card hero-copy">
+          <div class="eyebrow">Demand Forecasting • Inventory Intelligence • Portfolio Project</div>
+          <h1>Forecast demand. Prevent stockouts. Order smarter.</h1>
+          <p class="lead">
+            SmartStock is a retail forecasting project that predicts 7-day and 28-day demand, estimates
+            safety stock, and recommends reorder quantities at the store-item level. It was built as a
+            portfolio-ready data science product with a real business story behind the model.
+          </p>
+
+          <div class="cta-row">
+            <a class="button primary" href="https://github.com/Pranavojhaa/Smart_stock" target="_blank" rel="noreferrer">
+              View GitHub Repo
+            </a>
+            <a class="button secondary" href="README.md" target="_blank" rel="noreferrer">
+              Read Project Docs
+            </a>
+          </div>
+        </article>
+
+        <aside class="card hero-panel">
+          <div class="metric-grid">
+            <div class="metric">
+              <label>Forecast Horizons</label>
+              <strong>7D / 28D</strong>
+            </div>
+            <div class="metric">
+              <label>Core Model</label>
+              <strong>GBR</strong>
+            </div>
+            <div class="metric">
+              <label>Validation Lift</label>
+              <strong>28D +</strong>
+            </div>
+            <div class="metric">
+              <label>Output</label>
+              <strong>Reorders</strong>
+            </div>
+          </div>
+
+          <div class="mini-chart">
+            <div style="color: var(--muted)">Illustrative demand profile</div>
+            <div class="bars" aria-hidden="true">
+              <div class="bar" style="height: 34%"></div>
+              <div class="bar" style="height: 51%"></div>
+              <div class="bar" style="height: 44%"></div>
+              <div class="bar" style="height: 67%"></div>
+              <div class="bar" style="height: 72%"></div>
+              <div class="bar" style="height: 58%"></div>
+              <div class="bar" style="height: 81%"></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="features">
+        <div class="section-header">
+          <h2>What The Project Does</h2>
+          <p>
+            SmartStock goes beyond forecasting alone. It turns retail demand predictions into inventory decisions
+            that a planner or operations team can actually use.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="card tile">
+            <h3>Demand Forecasting</h3>
+            <p>
+              Predicts cumulative demand for the next 7 and 28 days using lag, rolling, price, calendar, and
+              promo features across store-item combinations.
+            </p>
+          </article>
+
+          <article class="card tile">
+            <h3>Inventory Planning</h3>
+            <p>
+              Converts forecasts into safety stock, reorder quantity, stockout risk, and overstock warnings using
+              transparent business logic.
+            </p>
+          </article>
+
+          <article class="card tile">
+            <h3>Portfolio Storytelling</h3>
+            <p>
+              Includes a Streamlit app, reusable Python package, README, tests, and business framing so the project
+              looks polished in a portfolio review.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="impact">
+        <div class="section-header">
+          <h2>Why It Matters</h2>
+          <p>
+            This project was designed around a practical retail planning problem: how to avoid empty shelves without
+            over-ordering slow-moving inventory.
+          </p>
+        </div>
+
+        <div class="impact-grid">
+          <article class="card tile">
+            <h3>Inventory Manager</h3>
+            <ul>
+              <li>See reorder priorities by item</li>
+              <li>Estimate stockout exposure</li>
+              <li>Plan replenishment with a safety buffer</li>
+            </ul>
+          </article>
+
+          <article class="card tile">
+            <h3>Category Planner</h3>
+            <ul>
+              <li>Compare demand across categories</li>
+              <li>Inspect forecast horizons</li>
+              <li>Identify stronger or weaker product groups</li>
+            </ul>
+          </article>
+
+          <article class="card tile">
+            <h3>Operations Analyst</h3>
+            <ul>
+              <li>Track forecast quality</li>
+              <li>Surface overstock risk</li>
+              <li>Review model lift against baselines</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Tech Stack And Architecture</h2>
+          <p>
+            The repo is split into a reusable forecasting package, a data pipeline, tests, and a Streamlit app for
+            interactive exploration.
+          </p>
+        </div>
+
+        <div class="showcase">
+          <article class="card code-block">
+src/smartstock/
+  data.py
+  features.py
+  modeling.py
+  inventory.py
+  pipeline.py
+
+app/
+  streamlit_app.py
+
+tests/
+  data, modeling, inventory
+          </article>
+
+          <div class="stack-grid">
+            <article class="card tile">
+              <h3>Python Stack</h3>
+              <p>Pandas, scikit-learn, joblib, Streamlit, Plotly</p>
+            </article>
+
+            <article class="card tile">
+              <h3>Modeling Layer</h3>
+              <p>Gradient boosting with horizon-specific targets and baseline comparisons</p>
+            </article>
+
+            <article class="card tile">
+              <h3>Deployment Note</h3>
+              <p>
+                This page is the Netlify-friendly project landing page. The interactive Python app itself is best
+                deployed on Streamlit Community Cloud or another Python-capable host.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="deploy">
+        <div class="section-header">
+          <h2>How To Run The Full App</h2>
+          <p>
+            Netlify now serves this landing page correctly. To run the interactive data app locally or on a Python
+            host, use the Streamlit command below.
+          </p>
+        </div>
+
+        <article class="card code-block">pip install -r requirements.txt
+PYTHONPATH=src python3 -m smartstock.pipeline
+PYTHONPATH=src streamlit run app/streamlit_app.py</article>
+      </section>
+
+      <footer class="card footer">
+        SmartStock was built to show end-to-end data science work: forecasting, evaluation, inventory logic, and
+        product-style presentation in one project.
+      </footer>
+    </main>
+  </body>
+</html>
