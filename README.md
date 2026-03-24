@@ -678,6 +678,44 @@ PYTHONPATH=src pytest
 
 ---
 
+## Deploy on Render
+
+Render is a good fit for this project because it supports Python web services, gives every app an `onrender.com` URL, and supports custom domains for web services. Render’s docs note that web services must bind to host `0.0.0.0`, and custom domains are added from the service settings with DNS records configured at your domain provider. Sources:
+
+- [Render Web Services docs](https://render.com/docs/web-services)
+- [Render Custom Domains docs](https://render.com/docs/custom-domains)
+- [Render Blueprint YAML reference](https://render.com/docs/blueprint-spec)
+
+This repo includes a ready-to-use [render.yaml](/Users/pranavojha/Data%20Science%20/render.yaml) Blueprint. You can deploy it like this:
+
+1. Push the repo to GitHub.
+2. In Render, choose `New +` -> `Blueprint`.
+3. Select this GitHub repo.
+4. Render will detect `render.yaml` and propose a `smartstock` web service.
+5. Click deploy.
+
+If you want to create the service manually instead of using the Blueprint, use:
+
+- Build command:
+  `pip install -r requirements.txt`
+- Start command:
+  `PYTHONPATH=src streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true`
+
+### Add your own subdomain
+
+After the app is live on Render:
+
+1. Open the Render service.
+2. Go to `Settings` -> `Custom Domains`.
+3. Add a subdomain such as `smartstock.yourdomain.com`.
+4. Render will show you the DNS record to create, typically a `CNAME`.
+5. Add that DNS record where you manage your domain.
+6. Return to Render and click `Verify`.
+
+Render’s docs also recommend removing any `AAAA` records for that domain while setting this up, because Render routes custom domains over IPv4.
+
+---
+
 ## Outputs and Artifacts
 
 Generated outputs include:
