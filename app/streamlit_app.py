@@ -18,6 +18,87 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+st.markdown(
+    """
+    <style>
+    :root {
+        --navy-900: #061a33;
+        --navy-800: #102746;
+        --navy-700: #17355d;
+        --red-500: #c63333;
+        --red-400: #e65a5a;
+        --text-100: #f4f7fb;
+        --text-300: #c9d7ea;
+        --line: rgba(255, 255, 255, 0.08);
+    }
+
+    .stApp {
+        background:
+            radial-gradient(circle at top right, rgba(198, 51, 51, 0.18), transparent 22%),
+            linear-gradient(180deg, var(--navy-800) 0%, var(--navy-900) 100%);
+        color: var(--text-100);
+    }
+
+    [data-testid="stHeader"] {
+        background: rgba(6, 26, 51, 0.72);
+    }
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0d2747 0%, #091b33 100%);
+        border-right: 1px solid var(--line);
+    }
+
+    [data-testid="stMetric"] {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 0.8rem 1rem;
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+    }
+
+    [data-testid="stMetricLabel"],
+    .stCaption,
+    .stMarkdown,
+    label,
+    .stTabs [data-baseweb="tab"] {
+        color: var(--text-300);
+    }
+
+    .stTabs [aria-selected="true"] {
+        color: var(--text-100);
+        border-bottom-color: var(--red-500);
+    }
+
+    .stTabs [data-baseweb="tab-highlight"] {
+        background-color: var(--red-500);
+    }
+
+    .stButton > button,
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, var(--red-500), var(--red-400));
+        color: white;
+        border: none;
+        border-radius: 12px;
+    }
+
+    .stSelectbox div[data-baseweb="select"] > div,
+    .stMultiSelect div[data-baseweb="select"] > div,
+    .stSlider,
+    .stNumberInput input {
+        background-color: rgba(255, 255, 255, 0.04);
+    }
+
+    [data-testid="stDataFrame"],
+    [data-testid="stTable"] {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 @st.cache_data(show_spinner=False)
 def load_artifacts() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
@@ -165,4 +246,3 @@ with tab_errors:
     st.plotly_chart(drift_chart, use_container_width=True)
 
 st.caption("Tip: run `python -m smartstock.pipeline` once to regenerate artifacts, or let the app bootstrap them automatically.")
-

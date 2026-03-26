@@ -3,3 +3,8 @@ headless = true
 enableCORS = false
 enableXsrfProtection = false
 
+[theme]
+primaryColor = "#c63333"
+backgroundColor = "#061a33"
+secondaryBackgroundColor = "#102746"
+textColor = "#f4f7fb"
